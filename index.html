@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务三十二：表单（四）实现表单自动生成工厂</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="main">
+
+
+        <div class="form-factory">
+            <div class="build" id="build">
+                <div class="form-group">
+                    <label for="label">名&nbsp;&nbsp;称</label>
+                    <input type="text" name="label">
+                </div>
+                <div class="form-group">
+                    <label for="type">类&nbsp;&nbsp;型</label>
+                    <input type="radio" name="type" value="text">
+                    <sapn>普通文本</sapn>
+                    <input type="radio" name="type" value="radio">
+                    <span>单选</span>
+                    <input type="radio" name="type" value="multi">
+                    <span>多选</span>
+                </div>
+                <div id="radio-input"></div>
+                <div class="form-group">
+                    <label for="validator">验证规则</label>
+                    <sapn>用户名</sapn>
+                    <input type="radio" name="validator">
+                    <sapn>密码</sapn>
+                    <input type="radio" name="validator">
+                    <span>邮箱</span>
+                    <input type="radio" name="validator">
+                    <span>电话号码</span>
+                    <input type="radio" name="validator">
+                </div>
+                <div class="form-group">
+                    <label for="rules">规则提示</label>
+                    <input type="text" name="rules">
+                </div>
+                <div class="form-group">
+                    <label for="success">验证通过提示</label>
+                    <input type="text" name="success">
+                </div>
+                <div class="form-group">
+                    <label for="fail">验证失败提示</label>
+                    <input type="text" name="fail">
+                </div>
+                <div class="form-group">
+                    <button id="build-form">生成表单</button>
+                </div>
+            </div>
+            <div class="delete">
+                <div class="form-group">
+                    <label for="delete-name">删除选项</label>
+                    <input type="text" name="delete-name">
+                </div>
+                <div class="form-group">
+                    <button id="delete-form">删除表单</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-result">
+               <p>thisi is result</p>
+        </div>
+    </div>
+    <script src="./app.js"></script>
+</body>
+
+</html>

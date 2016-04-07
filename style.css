@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+body {
+  font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+
+.main {
+  padding: 20px 60px; }
+  .main input[type="text"] {
+    width: 200px;
+    margin: 0 30px;
+    border-radius: 4px;
+    height: 36px;
+    font-size: 14px;
+    color: #555;
+    background-color: #FFF;
+    border: 1px solid #ccc;
+    outline: none;
+    padding-left: 10px; }
+  .main button {
+    height: 36px;
+    padding: 0 14px;
+    background-color: #5a98de;
+    border: 1px solid #5a98de;
+    border-radius: 4px;
+    cursor: pointer; }
+  .main .form-group {
+    position: relative;
+    margin: 20px 10px; }
+  .main .form-factory {
+    position: relative;
+    width: 500px;
+    border-right: 2px solid black; }
+    .main .form-factory label {
+      font-weight: bold; }
+    .main .form-factory button {
+      position: relative;
+      left: 300px; }
+    .main .form-factory .build, .main .form-factory .delete {
+      margin-bottom: 30px; }
+      .main .form-factory .build .form-group label, .main .form-factory .delete .form-group label {
+        width: 100px;
+        display: inline-block; }
+  .main .form-result {
+    position: absolute;
+    left: 600px;
+    top: 20px;
+    max-width: 600px;
+    border: 2px solid yellow; }
+
+/*# sourceMappingURL=style.css.map */
