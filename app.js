@@ -56,12 +56,12 @@
 
     // 展示或者隐藏 验证规则，提示，通过提示和失败提示
     var changeOtherStyleDisplay = function(status) {
-        
+
         validatorNode[0].parentNode.style.display = status;
         rulesNode.parentNode.style.display = status;
         successNode.parentNode.style.display = status;
         failNode.parentNode.style.display = status;
-        
+
     }
 
     // 单选或多选的时候增加选项
@@ -81,8 +81,8 @@
                     <input type="text" name="c">\
                 </div>';
             radioInputNode.innerHTML = str;
-            
-        } else if(status === 'none'){
+
+        } else if (status === 'none') {
             // 删除单多选选项
             radioInputNode.innerHTML = '';
         }
@@ -91,16 +91,49 @@
 
     // 为选项委托事件
     var addRadioInputEvent = function() {
-        console.log(111);
-        addEvent(radioInputNode, 'blur', function(e) {
+
+        // 委托事件，keyup 事件用的应该不是很好，但是不清楚哪个比较好
+        addEvent(radioInputNode, 'keyup', function(e) {
             e = e || window.event;
             var target = e.target || e.srcElement;
             if (target.tagName.toLowerCase() === 'input') {
+                console.log(target);
                 data['radioContent'][target.name] = target.value;
+
+                console.log(data);
             }
         })
     }
 
+    var addOtherInputEvent = function() {
+        for (var _i = 0; _i < validatorNode.length; _i++) {
+            (function(_i) {
+                addEvent(validatorNode[_i], 'click', function() {
+                    console.log(validatorNode[_i])
+                    data['validator'] = validatorNode[_i].value;
+
+                });
+            })(_i);
+        }
+
+
+        addEvent(rulesNode, 'blur', function() {
+            data['rules'] = rulesNode.value;
+
+        });
+
+        addEvent(successNode, 'blur', function() {
+            data['success'] = successNode.value;
+
+        });
+
+        addEvent(failNode, 'blur', function() {
+            data['fail'] = failNode.value;
+
+        });
+
+    }
+    
     // 页面初始化的时候绑定事件
     var eventHandle = function() {
 
@@ -121,52 +154,57 @@
             console.log(data)
         });
 
+        addOtherInputEvent();
+        
         // 给类型 type 添加事件 —— 普通文本,单选,多选
         for (var i = 0, l = typeNode.length; i < l; i++) {
             (function(i) {
                 addEvent(typeNode[i], 'click', function() {
-                    
+
                     // 填充 type 属性
                     data['type'] = typeNode[i].value;
                     // console.log(data);
-                    
+
                     if (data['type'] !== 'text') {
-                        
+
                         // 添加选项
                         changeRadioStyleDisplay('block');
-                        
+
                         //隐藏无用Input
                         changeOtherStyleDisplay('none');
-                        
+
                         // 初始化 radioContent 属性
-                        data['radioContent'] = [];
-                        
-                        // 删除 rules, success, error
+                        data['radioContent'] = {};
+
+                        // 删除 validator, rules, success, error
+                        delete data['validator'];
                         delete data['rules'];
                         delete data['success'];
                         delete data['error'];
-                        
+
                         // 为添加的选项委托事件
                         addRadioInputEvent();
-                        
-                        
+
+
                         console.log(data);
                     } else {
-                        
+
                         // 展示有用选项
                         changeOtherStyleDisplay('block');
-                        
+
                         // 删除选项 ABC
                         changeRadioStyleDisplay('none');
-                        
+
                         // 删除 radioContent 属性
                         delete data['radioContent'];
-                        
+
+                        // 为其他选项委托事件
+                        addOtherInputEvent();
                         console.log(data);
-                            
+
                     }
                 })
-                
+
             })(i);
 
         }
@@ -175,6 +213,11 @@
 
     var init = function() {
         eventHandle();
+       
+        setInterval(function(){
+            console.log(data);
+        }, 1000)
+        
     }
 
     init();

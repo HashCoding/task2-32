@@ -30,13 +30,13 @@
                 <div class="form-group">
                     <label for="validator">验证规则</label>
                     <sapn>用户名</sapn>
-                    <input type="radio" name="validator">
+                    <input type="radio" name="validator" value="username">
                     <sapn>密码</sapn>
-                    <input type="radio" name="validator">
+                    <input type="radio" name="validator" value="password">
                     <span>邮箱</span>
-                    <input type="radio" name="validator">
+                    <input type="radio" name="validator" value="email">
                     <span>电话号码</span>
-                    <input type="radio" name="validator">
+                    <input type="radio" name="validator" value="phone">
                 </div>
                 <div class="form-group">
                     <label for="rules">规则提示</label>
@@ -72,3 +72,26 @@
 </body>
 
 </html>
+
+
+{
+        'label': 'xxx',
+        
+        // 1
+        'type': 'text',
+        'validator': 'xxx',
+        'rules': 'xxx',
+        'success': 'xxx',
+        'fail': 'xxx'
+        
+        // 2 
+        'type': 'radio',
+        'validator': 'xxx',
+        'radioContent': {}a:'选项1', b:'选项2', c:'选项3'},
+        
+        // 3
+        'type': 'multi',
+        'validator': 'xxx',
+        'multiContent': {a:'选项1', b:'选项2', c:'选项3'}
+        
+    }
