@@ -12,6 +12,8 @@
     // 储存数据
     var data = {};
 
+    var count = 0; 
+
     /**
      
     {
@@ -26,12 +28,12 @@
         
         // 2 
         'type': 'radio',
-        'validator': 'xxx',
+        
         'radioContent': {}a:'选项1', b:'选项2', c:'选项3'},
         
         // 3
         'type': 'multi',
-        'validator': 'xxx',
+        
         'multiContent': {a:'选项1', b:'选项2', c:'选项3'}
         
     }
@@ -53,6 +55,8 @@
 
 
     var radioInputNode = document.getElementById('radio-input');
+
+    var formResult = document.getElementById('form-result');
 
     // 展示或者隐藏 验证规则，提示，通过提示和失败提示
     var changeOtherStyleDisplay = function(status) {
@@ -134,13 +138,31 @@
 
     }
     
+    
+    var buildForm = function() {
+        console.log(333)
+        var tepFragments = document.createDocumentFragment();
+        str = '<div class="form-group">';
+        str += '<span>' + data['label'] + '</span>';
+        str += '<input type="text" name="' + count + '">'
+        if(data['type'] === 'text') {
+            str += str += '<span>' + data['validator'] + '</span>';
+            str += str += '<span>' + data['rules'] + '</span>';
+            str += str += '<span>' + data['success'] + '</span>';
+            str += str += '<span>' + data['fail'] + '</span>';    
+        } else {
+            
+        }
+        str += '</div>'
+        tepFragments.innerHTML = str;
+        formResult.appendChild(tepFragments);
+    }
+    
     // 页面初始化的时候绑定事件
     var eventHandle = function() {
 
         // 为生成表单按钮添加事件， 按照 data 数据生成表单 
-        addEvent(buildFormButtonNode, 'click', function() {
-            console.log('click the submit button');
-        });
+        addEvent(buildFormButtonNode, 'click', buildForm);
 
         // 为删除表单按钮添加事件， 按照 data 数据生成表单
         addEvent(deleteFormButtonNode, 'click', function() {
@@ -213,11 +235,6 @@
 
     var init = function() {
         eventHandle();
-       
-        setInterval(function(){
-            console.log(data);
-        }, 1000)
-        
     }
 
     init();
