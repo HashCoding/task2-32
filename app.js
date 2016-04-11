@@ -1,17 +1,17 @@
 (function() {
     var addEvent = function(element, type, handle) {
-        if(element.addEventListener) {
+        if (element.addEventListener) {
             element.addEventListener(type, handle, false);
-        } else if(element.attachEvent) {
-            element.attachEvent('on'+type, handle);
+        } else if (element.attachEvent) {
+            element.attachEvent('on' + type, handle);
         } else {
-            element['on'+type] = handle;
+            element['on' + type] = handle;
         }
     }
-    
+
     // 储存数据
     var data = {};
-    
+
     /**
      
     {
@@ -37,108 +37,146 @@
     }
     
      */
-    
+
     var buildFormButtonNode = document.getElementById('build-form');
     var deleteFormButtonNode = document.getElementById('delete-form');
-    
+
     var labelNode = document.getElementsByName('label')[0];
-    var typeNode = document.getElementsByName ('type');
+    var typeNode = document.getElementsByName('type');
     var validatorNode = document.getElementsByName('validator');
     var rulesNode = document.getElementsByName('rules')[0];
     var successNode = document.getElementsByName('success')[0];
     var failNode = document.getElementsByName('fail')[0];
     var deleteNameNode = document.getElementsByName('delete-name')[0];
-    
+
     var buildNode = document.getElementById('build');
-    
-    
+
+
     var radioInputNode = document.getElementById('radio-input');
-    
+
     // 展示或者隐藏 验证规则，提示，通过提示和失败提示
-    var changeStyleDisplay = function(status) {
+    var changeOtherStyleDisplay = function(status) {
+        
         validatorNode[0].parentNode.style.display = status;
         rulesNode.parentNode.style.display = status;
         successNode.parentNode.style.display = status;
         failNode.parentNode.style.display = status;
+        
     }
-    
+
     // 单选或多选的时候增加选项
-    var addRadio = function() {
-        // 隐藏无用选项
-        changeStyleDisplay('none');
-        // 增加单多选选项
-        var str = '<div class="form-group">\
+    var changeRadioStyleDisplay = function(status) {
+        if (status === 'block') {
+            // 增加单多选选项
+            var str = '<div class="form-group">\
                     <label for="a">选项A</label>\
                     <input type="text" name="a">\
                 </div>';
-         str += '<div class="form-group">\
+            str += '<div class="form-group">\
                     <label for="b">选项B</label>\
                     <input type="text" name="b">\
                 </div>';
-         str += '<div class="form-group">\
+            str += '<div class="form-group">\
                     <label for="c">选项C</label>\
                     <input type="text" name="c">\
                 </div>';
-        radioInputNode.innerHTML = str;               
+            radioInputNode.innerHTML = str;
+            
+        } else if(status === 'none'){
+            // 删除单多选选项
+            radioInputNode.innerHTML = '';
+        }
+
     }
-    
+
     // 为选项委托事件
-    var addRadioInoutEvent = function() {
+    var addRadioInputEvent = function() {
         console.log(111);
         addEvent(radioInputNode, 'blur', function(e) {
             e = e || window.event;
             var target = e.target || e.srcElement;
-            if(target.tagName.toLowerCase() === 'input') {
+            if (target.tagName.toLowerCase() === 'input') {
                 data['radioContent'][target.name] = target.value;
             }
         })
     }
-    
+
     // 页面初始化的时候绑定事件
     var eventHandle = function() {
-        
+
         // 为生成表单按钮添加事件， 按照 data 数据生成表单 
-        addEvent(buildFormButtonNode, 'click', function () {
-            
+        addEvent(buildFormButtonNode, 'click', function() {
+            console.log('click the submit button');
         });
-        
+
         // 为删除表单按钮添加事件， 按照 data 数据生成表单
-        addEvent(deleteFormButtonNode, 'click', function () {
-           console.log('xxx') 
+        addEvent(deleteFormButtonNode, 'click', function() {
+            console.log('click the delete button');
         });
-        
+
         // 给名称 label 添加事件
-        addEvent(labelNode, 'blur', function () {
-           data['label'] = labelNode.value;
-           console.log(data)
+        // 填充 label 属性
+        addEvent(labelNode, 'blur', function() {
+            data['label'] = labelNode.value;
+            console.log(data)
         });
-        
-        // 给类型 type 添加事件
-        for(var i = 0, l = typeNode.length; i < l; i++) {
+
+        // 给类型 type 添加事件 —— 普通文本,单选,多选
+        for (var i = 0, l = typeNode.length; i < l; i++) {
             (function(i) {
                 addEvent(typeNode[i], 'click', function() {
+                    
+                    // 填充 type 属性
                     data['type'] = typeNode[i].value;
                     // console.log(data);
-                    if(data['type'] !== 'text') {
+                    
+                    if (data['type'] !== 'text') {
+                        
                         // 添加选项
-                        addRadio();
+                        changeRadioStyleDisplay('block');
+                        
+                        //隐藏无用Input
+                        changeOtherStyleDisplay('none');
+                        
+                        // 初始化 radioContent 属性
                         data['radioContent'] = [];
+                        
+                        // 删除 rules, success, error
+                        delete data['rules'];
+                        delete data['success'];
+                        delete data['error'];
+                        
                         // 为添加的选项委托事件
-                        addRadioInoutEvent();
+                        addRadioInputEvent();
+                        
+                        
+                        console.log(data);
                     } else {
-                        changeStyleDisplay('block');
+                        
+                        // 展示有用选项
+                        changeOtherStyleDisplay('block');
+                        
+                        // 删除选项 ABC
+                        changeRadioStyleDisplay('none');
+                        
+                        // 删除 radioContent 属性
+                        delete data['radioContent'];
+                        
+                        console.log(data);
+                            
                     }
-                })    
+                })
+                
             })(i);
-            
+
         }
-        
+
     }
-    
+
     var init = function() {
         eventHandle();
     }
-    
+
     init();
-    
+
 })();
